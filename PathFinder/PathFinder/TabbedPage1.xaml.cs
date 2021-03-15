@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace PathFinder
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TabbedPage1 : TabbedPage
+    {
+        public TabbedPage1()
+        {
+            InitializeComponent();
+            ContentPage MapPage = new MapPage();
+            MapPage.Title = "Map";
+
+            ContentPage AchievmentsPage = new AchievmentsPage();
+            AchievmentsPage.Title = "Your achievments";
+
+            Children.Add(MapPage);
+            Children.Add(AchievmentsPage);
+        }
+    }
+}
