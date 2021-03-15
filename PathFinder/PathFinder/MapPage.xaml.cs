@@ -42,12 +42,12 @@ namespace PathFinder
             {
                 Pin pin = new Pin
                 {
-                    Label = point.
-                    Address = tock.opis,
+                    Label = point.name,
+                    Address = point.description,
                     Type = PinType.Place,
-                    Position = new Position(tock.latitude, tock.longtitude)
+                    Position = new Position(point.coordX, point.coordY)
                 };
-                parkjeze.Pins.Add(pin);
+                map.Pins.Add(pin);
             }
 
         }

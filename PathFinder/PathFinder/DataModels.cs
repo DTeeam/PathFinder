@@ -22,6 +22,7 @@ namespace PathFinder
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
+        public string name { get; set; }
         public double coordX { get; set; }
         public double coordY { get; set; }
         public string description { get; set; }
