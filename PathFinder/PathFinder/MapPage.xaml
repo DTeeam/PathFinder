@@ -4,12 +4,49 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              x:Class="PathFinder.MapPage">
     <ContentPage.Content>
-        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <RelativeLayout Margin="0">
 
-            <maps:Map IsShowingUser="True" MyLocationEnabled="True" x:Name="map" MapType="Street" ></maps:Map>
-        </Grid>
+            <maps:Map 
+                RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent,
+                                Property=Width,
+                                Factor=1}"
+                RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent,
+                                Property=Height,
+                                Factor=1}"
+                IsShowingUser="true" MyLocationEnabled="true" x:Name="map" MapType="Street">
+                
+            </maps:Map>
+
+            <ImageButton Source="center"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-56}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Constant=-155}"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="OnButtonClicked"
+ 
+                    WidthRequest="50"
+                    HeightRequest="50"
+               
+                    BackgroundColor="Transparent"/>
+            
+
+
+        
+        </RelativeLayout>
+
     </ContentPage.Content>
 </ContentPage>
+    <!-- DELA RAZN V MAPSIH
+        <RelativeLayout>
+    <ImageButton Source="center"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-56}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Constant=-155}"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="OnButtonClicked"
+ 
+                    WidthRequest="50"
+                    HeightRequest="50"
+               
+                    BackgroundColor="Transparent"/>
+    </RelativeLayout> -->

@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Essentials;
 using System.Timers;
-
+using Plugin.Geolocator;
 
 namespace PathFinder
 {
@@ -33,6 +33,13 @@ namespace PathFinder
             time.Elapsed += OnTimedEvent;
             time.Start();
 
+            
+        }
+
+
+        async void OnButtonClicked(object sender, EventArgs args)
+        {
+            findMe();
         }
 
         private async void pointList()
@@ -61,10 +68,17 @@ namespace PathFinder
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var location = await Geolocation.GetLocationAsync(request);
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromKilometers(1)));
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromKilometers(1)));       
+        }
 
-            
-            
+        private async void findMe()
+        {
+            var locator = CrossGeolocator.Current;
+            Plugin.Geolocator.Abstractions.Position position = new Plugin.Geolocator.Abstractions.Position();
+
+            position = await locator.GetPositionAsync();
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
+                                            Distance.FromKilometers(1)));
         }
 
     }
