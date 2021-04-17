@@ -27,6 +27,7 @@ namespace PathFinder
         public double coordY { get; set; }
         public string description { get; set; }
         public string hint { get; set; }
+        public int discovered { get; set; }
     }
 
     

@@ -6,16 +6,18 @@
     <ContentPage.Content>
         <RelativeLayout Margin="0">
 
-            <maps:Map 
+            <maps:Map IsShowingUser="true" MyLocationEnabled="true" x:Name="map" MapType="Street"
+                InitialCameraUpdate="46.35917, 15.11028"
+                
+                      
                 RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent,
                                 Property=Width,
                                 Factor=1}"
                 RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent,
                                 Property=Height,
                                 Factor=1}"
-                IsShowingUser="true" MyLocationEnabled="true" x:Name="map" MapType="Street">
                 
-            </maps:Map>
+            > </maps:Map>
 
             <ImageButton Source="center"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-56}"
