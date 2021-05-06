@@ -14,6 +14,9 @@ namespace PathFinder
         public string name { get; set; }
         public double coordX { get; set; }
         public double coordY { get; set; }
+        public string description { get; set; }
+        public string image { get; set; }
+
     }
 
     [Table("points")]
@@ -28,6 +31,7 @@ namespace PathFinder
         public string description { get; set; }
         public string hint { get; set; }
         public int discovered { get; set; }
+        public int image { get; set; }
     }
 
     

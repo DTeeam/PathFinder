@@ -22,15 +22,16 @@ namespace PathFinder
         private Database db;
         int st = 0;
         List<points> pointsList = new List<points>();
+        List<achievments> achList = new List<achievments>();
         public MapPage()
         {
             InitializeComponent();
             db = new Database();
 
-            //
-            //pointList();
+            
+            //PointList();
 
-            timer_elapsed();
+            Timer_elapsed();
             time.Enabled = true;
             time.Interval = 500;
             time.Elapsed += OnTimedEvent;
@@ -40,69 +41,77 @@ namespace PathFinder
 
         async void OnButtonClicked(object sender, EventArgs args)
         {
-            findMe();
-            pointList();
-            
+            FindMe();
+            PointList();
         }
 
-        private async void pointList()
+        private async void PointList()
         {
-            userXY();
+            UserXY();
             bool vis = false;
 
 
             pointsList = await db.GetPointsAsync();
-            //foreach(points point in pointsList)
-            //{
-                userXY();               
-                const double r = 6371e3;
-                double numa = lat * Math.PI / 180;
-                double numb = pointsList[st].coordX * Math.PI / 180;
-                double numc = (pointsList[st].coordX - lat) * Math.PI / 180;
-                double numd = (pointsList[st].coordY - lon) * Math.PI / 180;
+            Console.WriteLine(pointsList[st].description + "   AHAHAHAHAHAHAHAHAHAHAhAHA");
 
-                double a = Math.Sin(numc / 2) * Math.Sin(numc / 2) +
-                    Math.Cos(numa) * Math.Cos(numb) *
-                    Math.Sin(numd / 2) * Math.Sin(numd / 2);
-                double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
-                double d = r * c;
 
-                Console.WriteLine("    DISTANCE:    " + d );
-                //TODO spod nastavi d <= 75(m), 1005 je sam za testirat.
-                if (d <= 1005 || pointsList[st].discovered == 1)
+
+            //string testDesc = achList[1].desc;
+            //Console.WriteLine(testDesc);
+            //await DisplayAlert("Alert", testDesc, "OK");
+
+            //UserXY();               
+            const double r = 6371e3;
+            double numa = lat * Math.PI / 180;
+            double numb = pointsList[st].coordX * Math.PI / 180;
+            double numc = (pointsList[st].coordX - lat) * Math.PI / 180;
+            double numd = (pointsList[st].coordY - lon) * Math.PI / 180;
+
+            double a = Math.Sin(numc / 2) * Math.Sin(numc / 2) +
+                Math.Cos(numa) * Math.Cos(numb) *
+                Math.Sin(numd / 2) * Math.Sin(numd / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            double d = r * c;
+
+
+            Console.WriteLine("    DISTANCE:    " + d );
+            //TODO spod nastavi d <= 75(m), 1005 je sam za testirat.
+            if (d <= 1005 || pointsList[st].discovered == 1)
+            {
+                vis = true;
+
+                Pin pin = new Pin
                 {
-                    vis = true;
+                    Label = pointsList[st].name,
+                    Address = pointsList[st].description,
+                    Type = PinType.Place,
+                    Position = new Position(pointsList[st].coordX, pointsList[st].coordY),
+                    IsVisible = vis
+                };
+                map.Pins.Add(pin);
+                App.selectedID = st;
 
-                    Pin pin = new Pin
-                    {
-                        Label = pointsList[st].name,
-                        Address = pointsList[st].description,
-                        Type = PinType.Place,
-                        Position = new Position(pointsList[st].coordX, pointsList[st].coordY),
-                        IsVisible = vis
-                    };
-                    map.Pins.Add(pin);
-                    st++;
-                }
-            //}
+                st++;
+            }
 
 
         }
 
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            timer_elapsed();
+            Timer_elapsed();
         }
        
-        private async void timer_elapsed()
+        private async void Timer_elapsed()
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var location = await Geolocation.GetLocationAsync(request);
             map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromKilometers(1)));
         }
 
-        private async void findMe()
+        private async void FindMe()
         {
             var locator = CrossGeolocator.Current;
             Plugin.Geolocator.Abstractions.Position position = new Plugin.Geolocator.Abstractions.Position();
@@ -114,7 +123,7 @@ namespace PathFinder
             
         }
 
-        private async void userXY()
+        private async void UserXY()
         {
             var locator = CrossGeolocator.Current;
             Plugin.Geolocator.Abstractions.Position position = new Plugin.Geolocator.Abstractions.Position();
