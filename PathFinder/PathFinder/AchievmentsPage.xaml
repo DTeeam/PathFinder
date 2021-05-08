@@ -4,27 +4,13 @@
              x:Class="PathFinder.AchievmentsPage">
 
     <StackLayout>
-        <ListView x:Name="litViewAchievment"  HasUnevenRows="True">
+        <ListView x:Name="litViewAchievment" ItemSelected="litViewAchievment_ItemSelected" HasUnevenRows="True" ItemsSource="{Binding Items}" IsPullToRefreshEnabled ="True" Refreshing="ListView_Refreshing">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.View>
-                            <Grid >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
 
 
-                                <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" Text="{Binding quote}" />
+                    <TextCell Text="{Binding}"/>
 
-                            </Grid>
-                        </ViewCell.View>
-                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

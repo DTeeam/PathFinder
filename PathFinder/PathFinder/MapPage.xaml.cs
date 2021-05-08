@@ -20,13 +20,15 @@ namespace PathFinder
         double lat = 0;
         double lon = 0;
         private Database db;
+        private AchievmentsPage ach;
         int st = 0;
         List<points> pointsList = new List<points>();
-        List<achievments> achList = new List<achievments>();
+        //List<points> achList = new List<points>();
         public MapPage()
         {
             InitializeComponent();
             db = new Database();
+            
 
             
             //PointList();
@@ -50,9 +52,8 @@ namespace PathFinder
             UserXY();
             bool vis = false;
 
-
             pointsList = await db.GetPointsAsync();
-            Console.WriteLine(pointsList[st].description + "   AHAHAHAHAHAHAHAHAHAHAhAHA");
+            ach = new AchievmentsPage();
 
 
 
@@ -85,17 +86,23 @@ namespace PathFinder
                 Pin pin = new Pin
                 {
                     Label = pointsList[st].name,
-                    Address = pointsList[st].description,
+                    //Address = pointsList[st].description,
                     Type = PinType.Place,
                     Position = new Position(pointsList[st].coordX, pointsList[st].coordY),
                     IsVisible = vis
                 };
-                map.Pins.Add(pin);
-                App.selectedID = st;
+                pin.Clicked += (sender, e) => {
+                    DisplayAlert(pointsList[st].name, pointsList[st].description, "Zapri");
+                    Console.WriteLine("DELA");
+                };
 
+                map.Pins.Add(pin);
+                App.globalID = 1;
+                App.achList.Add(pointsList[st]);
+                ach.FillAchievments();
+                
                 st++;
             }
-
 
         }
 

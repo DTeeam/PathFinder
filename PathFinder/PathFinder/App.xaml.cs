@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,7 +8,8 @@ namespace PathFinder
     public partial class App : Application
     {
         public static string DatabaseFilename = "database.db";
-        public static int selectedID = 0;
+        public static int globalID = 0;
+        public static List<points> achList = new List<points>();
         public App()
         {
             InitializeComponent();

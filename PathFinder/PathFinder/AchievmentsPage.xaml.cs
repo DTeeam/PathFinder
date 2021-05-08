@@ -8,6 +8,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.ObjectModel;
 using Xamarin.Forms.Internals;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace PathFinder
 {
@@ -16,19 +18,70 @@ namespace PathFinder
     {
         Database db = new Database();
 
-        List<points> pointsList = new List<points>();
+        ObservableCollection<string> pointsList = new ObservableCollection<string>();
+        public ObservableCollection<string> Items { get { return pointsList; } }
+
+
         public AchievmentsPage()
         {
             InitializeComponent();
+            lol();
+
         }
 
-        public async void FillAchievments(int id)
+        public async void FillAchievments()
+        {
+            this.pointsList.Add("test");
+            this.pointsList = new ObservableCollection<string>();
+            this.litViewAchievment.ItemsSource = null;
+
+            foreach(points p in App.achList)
+            {
+                this.pointsList.Add(p.description);
+            }
+            this.litViewAchievment.ItemsSource = pointsList;
+        }
+
+        public async void lol()
         {
 
-            pointsList = await db.GetPointsAsync();
+            pointsList.Add("A");
+            pointsList.Add("B");
+            pointsList.Add("C");
+            litViewAchievment.ItemsSource = pointsList;
 
-            litViewAchievment.ItemsSource = pointsList[id].description;
-            litViewAchievment.HeightRequest = (40 * pointsList.Count());
+        }
+        private void ContentPage_Appearing(object sender, EventArgs e)
+        {
+            lol();
+        }
+        private void ListView_Refreshing(object sender, EventArgs e)
+        {
+            litViewAchievment.ItemsSource = pointsList;
+            litViewAchievment.EndRefresh();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (App.globalID != 0)
+            {
+                FillAchievments();
+                App.globalID = 0;
+            }
+        }
+
+        private void litViewAchievment_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            int id = 0;
+            foreach(points p in App.achList)
+            {
+                if(p.description == litViewAchievment.SelectedItem.ToString())
+                    break;
+
+                id++;
+            }
+            Console.WriteLine((App.achList.IndexOf(litViewAchievment.SelectedItem) + 1) + " DELA");
+            Console.WriteLine(litViewAchievment.SelectedItem + " !DELA");
         }
     }
 }

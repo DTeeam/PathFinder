@@ -16,10 +16,10 @@ namespace PathFinder
         {
             InitializeComponent();
             ContentPage MapPage = new MapPage();
-            MapPage.Title = "Map";
+            MapPage.Title = "Zemljevid";
 
             ContentPage AchievmentsPage = new AchievmentsPage();
-            AchievmentsPage.Title = "Your achievments";
+            AchievmentsPage.Title = "Dosežki";
 
             Children.Add(MapPage);
             Children.Add(AchievmentsPage);

@@ -20,10 +20,6 @@ namespace PathFinder
         {
             return dbConnection.Table<points>().ToListAsync();
         }
-        public Task<List<achievments>> GetAchievmentsAsync(int id)
-        {
-            return dbConnection.Table<achievments>().ToListAsync();
-            //return dbConnection.QueryAsync<achievments>("SELECT * FROM achievments WHERE id = " + id + ";");
-        }
+        
     }
 }
