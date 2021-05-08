@@ -7,7 +7,7 @@ namespace PathFinder
 {
     [Table("points")]
 
-    public class points
+    public class Point
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }

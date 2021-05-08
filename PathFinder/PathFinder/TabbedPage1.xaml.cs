@@ -15,10 +15,10 @@ namespace PathFinder
         public TabbedPage1()
         {
             InitializeComponent();
-            ContentPage MapPage = new MapPage();
+            NavigationPage MapPage = new NavigationPage(new MapPage());
             MapPage.Title = "Zemljevid";
 
-            ContentPage AchievmentsPage = new AchievmentsPage();
+            NavigationPage AchievmentsPage = new NavigationPage(new AchievmentsPage());
             AchievmentsPage.Title = "Dosežki";
 
             Children.Add(MapPage);

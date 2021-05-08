@@ -17,7 +17,7 @@ namespace PathFinder
     public partial class AchievmentsPage : ContentPage
     {
         Database db = new Database();
-
+        DescriptionPage desc;
         ObservableCollection<string> pointsList = new ObservableCollection<string>();
         public ObservableCollection<string> Items { get { return pointsList; } }
 
@@ -25,40 +25,23 @@ namespace PathFinder
         public AchievmentsPage()
         {
             InitializeComponent();
-            lol();
-
         }
 
         public async void FillAchievments()
         {
-            this.pointsList.Add("test");
             this.pointsList = new ObservableCollection<string>();
             this.litViewAchievment.ItemsSource = null;
 
-            foreach(points p in App.achList)
+            foreach(Point p in App.achList)
             {
                 this.pointsList.Add(p.description);
             }
             this.litViewAchievment.ItemsSource = pointsList;
         }
 
-        public async void lol()
-        {
-
-            pointsList.Add("A");
-            pointsList.Add("B");
-            pointsList.Add("C");
-            litViewAchievment.ItemsSource = pointsList;
-
-        }
-        private void ContentPage_Appearing(object sender, EventArgs e)
-        {
-            lol();
-        }
         private void ListView_Refreshing(object sender, EventArgs e)
         {
-            litViewAchievment.ItemsSource = pointsList;
-            litViewAchievment.EndRefresh();
+            FillAchievments();
         }
         protected override void OnAppearing()
         {
@@ -70,18 +53,20 @@ namespace PathFinder
             }
         }
 
-        private void litViewAchievment_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void litViewAchievment_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             int id = 0;
-            foreach(points p in App.achList)
+            foreach(Point p in App.achList)
             {
                 if(p.description == litViewAchievment.SelectedItem.ToString())
                     break;
 
                 id++;
             }
-            Console.WriteLine((App.achList.IndexOf(litViewAchievment.SelectedItem) + 1) + " DELA");
-            Console.WriteLine(litViewAchievment.SelectedItem + " !DELA");
+            App.globalID = id;
+
+            await Navigation.PushAsync(new DescriptionPage(id));
+            
         }
     }
 }

@@ -16,9 +16,9 @@ namespace PathFinder
             dbConnection = DependencyService.Get<IDBInterface>().CreateConnection();
         }
 
-        public Task<List<points>> GetPointsAsync()
+        public Task<List<Point>> GetPointsAsync()
         {
-            return dbConnection.Table<points>().ToListAsync();
+            return dbConnection.Table<Point>().ToListAsync();
         }
         
     }

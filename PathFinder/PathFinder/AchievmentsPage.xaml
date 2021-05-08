@@ -4,7 +4,7 @@
              x:Class="PathFinder.AchievmentsPage">
 
     <StackLayout>
-        <ListView x:Name="litViewAchievment" ItemSelected="litViewAchievment_ItemSelected" HasUnevenRows="True" ItemsSource="{Binding Items}" IsPullToRefreshEnabled ="True" Refreshing="ListView_Refreshing">
+        <ListView x:Name="litViewAchievment" ItemSelected="litViewAchievment_ItemSelected" HasUnevenRows="True" ItemsSource="{Binding Items}">
             <ListView.ItemTemplate>
                 <DataTemplate>
 

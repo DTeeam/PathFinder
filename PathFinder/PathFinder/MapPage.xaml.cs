@@ -22,15 +22,16 @@ namespace PathFinder
         private Database db;
         private AchievmentsPage ach;
         int st = 0;
-        List<points> pointsList = new List<points>();
+        List<Point> pointsList = new List<Point>();
         //List<points> achList = new List<points>();
         public MapPage()
         {
             InitializeComponent();
-            db = new Database();
-            
+            //TODO odkomentiri za release.
+            //DisplayAlert("Namig", "Pozdravljeni, prvo točko boste našli blablabla", "Začni");
 
-            
+            db = new Database();
+
             //PointList();
 
             Timer_elapsed();
@@ -83,22 +84,25 @@ namespace PathFinder
             {
                 vis = true;
 
+                Point point = pointsList[st];
                 Pin pin = new Pin
                 {
-                    Label = pointsList[st].name,
-                    //Address = pointsList[st].description,
+                    Label = point.name,
                     Type = PinType.Place,
-                    Position = new Position(pointsList[st].coordX, pointsList[st].coordY),
+                    Position = new Position(point.coordX, point.coordY),
                     IsVisible = vis
                 };
+                //TODO st se poveča ko dodaš nov pin, displayAlert je pol vedno samo za zadni pin praviln
+                
                 pin.Clicked += (sender, e) => {
-                    DisplayAlert(pointsList[st].name, pointsList[st].description, "Zapri");
-                    Console.WriteLine("DELA");
+                    Point selectedPin = (Point)pin.Tag;
+                    DisplayAlert(selectedPin.name, selectedPin.hint, "Zapri");
+                    Console.WriteLine(pin.Tag + "DELA");
                 };
-
+                pin.Tag = point;
                 map.Pins.Add(pin);
                 App.globalID = 1;
-                App.achList.Add(pointsList[st]);
+                App.achList.Add(point);
                 ach.FillAchievments();
                 
                 st++;

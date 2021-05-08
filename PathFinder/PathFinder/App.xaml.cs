@@ -9,7 +9,8 @@ namespace PathFinder
     {
         public static string DatabaseFilename = "database.db";
         public static int globalID = 0;
-        public static List<points> achList = new List<points>();
+        public static List<Point> achList = new List<Point>();
+
         public App()
         {
             InitializeComponent();
