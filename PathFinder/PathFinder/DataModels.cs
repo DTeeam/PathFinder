@@ -17,7 +17,7 @@ namespace PathFinder
         public string description { get; set; }
         public string hint { get; set; }
         public int discovered { get; set; }
-        public int image { get; set; }
+        public string image { get; set; }
     }
 
     

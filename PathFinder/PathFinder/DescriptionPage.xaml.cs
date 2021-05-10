@@ -21,8 +21,7 @@ namespace PathFinder
         {
             labelTitle.Text = App.achList[id].name;
             labelDesc.Text = App.achList[id].description;
-            imagaImg.Source = "center";
+            imagaImg.Source = App.achList[id].image;
         }
-
     }
 }

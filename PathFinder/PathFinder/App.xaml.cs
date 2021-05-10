@@ -16,6 +16,7 @@ namespace PathFinder
             InitializeComponent();
 
             MainPage = new TabbedPage1();
+            //MainPage = new AchievmentsPage();
         }
 
         protected override void OnStart()

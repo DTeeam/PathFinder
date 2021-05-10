@@ -32,10 +32,12 @@ namespace PathFinder
             this.pointsList = new ObservableCollection<string>();
             this.litViewAchievment.ItemsSource = null;
 
-            foreach(Point p in App.achList)
+            foreach (Point p in App.achList)
             {
-                this.pointsList.Add(p.description);
+                this.pointsList.Add(p.name);
             }
+            
+            
             this.litViewAchievment.ItemsSource = pointsList;
         }
 
@@ -58,7 +60,7 @@ namespace PathFinder
             int id = 0;
             foreach(Point p in App.achList)
             {
-                if(p.description == litViewAchievment.SelectedItem.ToString())
+                if(p.name == litViewAchievment.SelectedItem.ToString())
                     break;
 
                 id++;
@@ -66,7 +68,7 @@ namespace PathFinder
             App.globalID = id;
 
             await Navigation.PushAsync(new DescriptionPage(id));
-            
+
         }
     }
 }

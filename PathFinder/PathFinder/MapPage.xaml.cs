@@ -10,6 +10,7 @@ using Xamarin.Forms.GoogleMaps;
 using Xamarin.Essentials;
 using System.Timers;
 using Plugin.Geolocator;
+using Android.OS;
 
 namespace PathFinder
 {
@@ -20,23 +21,18 @@ namespace PathFinder
         double lat = 0;
         double lon = 0;
         private Database db;
-        private AchievmentsPage ach;
         int st = 0;
         List<Point> pointsList = new List<Point>();
-        //List<points> achList = new List<points>();
         public MapPage()
         {
             InitializeComponent();
             //TODO odkomentiri za release.
-            //DisplayAlert("Namig", "Pozdravljeni, prvo točko boste našli blablabla", "Začni");
-
+            //DisplayAlert("Namig", "Pozdravljeni, prva točka ima zanimiv dizajn, našli pa jo boste v centru mesta ob reki Paki.", "Začni");
             db = new Database();
-
-            //PointList();
 
             Timer_elapsed();
             time.Enabled = true;
-            time.Interval = 500;
+            time.Interval = 1000;
             time.Elapsed += OnTimedEvent;
             time.Start();
         }
@@ -44,47 +40,32 @@ namespace PathFinder
 
         async void OnButtonClicked(object sender, EventArgs args)
         {
-            FindMe();
-            PointList();
+            Timer_elapsed();
         }
 
         private async void PointList()
         {
-            UserXY();
-            bool vis = false;
-
             pointsList = await db.GetPointsAsync();
-            ach = new AchievmentsPage();
+            Point point = pointsList[st];
 
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            var location = await Geolocation.GetLocationAsync(request);
 
+            double distance = Location.CalculateDistance(location.Latitude, location.Longitude, point.coordX, point.coordY, DistanceUnits.Kilometers);
+            
+            
+            Console.WriteLine(location + "DELA");
+            lat = location.Latitude;
+            lon = location.Longitude;
 
-
-            //string testDesc = achList[1].desc;
-            //Console.WriteLine(testDesc);
-            //await DisplayAlert("Alert", testDesc, "OK");
-
-            //UserXY();               
-            const double r = 6371e3;
-            double numa = lat * Math.PI / 180;
-            double numb = pointsList[st].coordX * Math.PI / 180;
-            double numc = (pointsList[st].coordX - lat) * Math.PI / 180;
-            double numd = (pointsList[st].coordY - lon) * Math.PI / 180;
-
-            double a = Math.Sin(numc / 2) * Math.Sin(numc / 2) +
-                Math.Cos(numa) * Math.Cos(numb) *
-                Math.Sin(numd / 2) * Math.Sin(numd / 2);
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-            double d = r * c;
-
-
-            Console.WriteLine("    DISTANCE:    " + d );
-            //TODO spod nastavi d <= 75(m), 1005 je sam za testirat.
-            if (d <= 1005 || pointsList[st].discovered == 1)
+            bool vis = false;
+            distance *= 1000;
+            Console.WriteLine(distance + "   DISTANCE:");
+            //TODO spod nastavi d <= 25(m), ce je kaj druga je sam za testirat.
+            if (distance <= 25 || pointsList[st].discovered == 1)
             {
                 vis = true;
 
-                Point point = pointsList[st];
                 Pin pin = new Pin
                 {
                     Label = point.name,
@@ -92,19 +73,24 @@ namespace PathFinder
                     Position = new Position(point.coordX, point.coordY),
                     IsVisible = vis
                 };
-                //TODO st se poveča ko dodaš nov pin, displayAlert je pol vedno samo za zadni pin praviln
-                
+
+
                 pin.Clicked += (sender, e) => {
                     Point selectedPin = (Point)pin.Tag;
-                    DisplayAlert(selectedPin.name, selectedPin.hint, "Zapri");
+                    DisplayAlert("Namig", selectedPin.hint, "Zapri");
                     Console.WriteLine(pin.Tag + "DELA");
                 };
+
                 pin.Tag = point;
-                map.Pins.Add(pin);
-                App.globalID = 1;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    map.Pins.Add(pin);
+                });
+
                 App.achList.Add(point);
-                ach.FillAchievments();
-                
+                App.globalID = 1;
+
                 st++;
             }
 
@@ -119,32 +105,13 @@ namespace PathFinder
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var location = await Geolocation.GetLocationAsync(request);
+
             map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromKilometers(1)));
+
+           
+
+
+            PointList();
         }
-
-        private async void FindMe()
-        {
-            var locator = CrossGeolocator.Current;
-            Plugin.Geolocator.Abstractions.Position position = new Plugin.Geolocator.Abstractions.Position();
-
-            position = await locator.GetPositionAsync();
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
-                                            Distance.FromKilometers(1)));
-            
-            
-        }
-
-        private async void UserXY()
-        {
-            var locator = CrossGeolocator.Current;
-            Plugin.Geolocator.Abstractions.Position position = new Plugin.Geolocator.Abstractions.Position();
-
-            position = await locator.GetPositionAsync();
-
-            lat = position.Latitude;
-            lon = position.Longitude;
-
-        }
-
     }
 }

@@ -2,15 +2,25 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PathFinder.DescriptionPage">
+    
+    <NavigationPage.TitleView>
+        <Label Text="Mobilna avantura"
+               HorizontalTextAlignment="Center"
+               FontSize="20"
+               FontAttributes="Bold"
+               Margin="-57, 0, 0, 0" />
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="labelTitle"
                    Style="{DynamicResource TitleStyle}"
-                VerticalOptions="CenterAndExpand" 
+                VerticalOptions="Center"
+                Padding="20"
                 HorizontalOptions="CenterAndExpand" />
             
             <Label x:Name="labelDesc"
-                VerticalOptions="CenterAndExpand" 
+                VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand" />
 
             <Image x:Name="imagaImg"   
